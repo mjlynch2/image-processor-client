@@ -31,6 +31,8 @@ class App extends Component {
         <img src={this.props.random.path}></img>
         <br/>
         {this.props.random.description}
+        <br />
+        <button onClick={this.getRandomGif}>New Random Gif!</button>
       </div>
     );
   }
