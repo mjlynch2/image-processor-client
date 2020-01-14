@@ -5,10 +5,10 @@ import Axios from "axios";
 class App extends Component {
   // Renders the entire app on the DOM
   componentDidMount() {
-    this.getRandomGif();
+    this.getRandomImages();
   }
 
-  getRandomGif = () => {
+  getRandmImages = () => {
     Axios.get("/random")
       .then(response => {
         this.props.dispatch({ type: "SET_RANDOM", payload: response.data });
