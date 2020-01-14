@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import { connect } from 'react-redux';
-import Axios from 'axios';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Axios from "axios";
 
 class App extends Component {
   // Renders the entire app on the DOM
@@ -10,36 +9,36 @@ class App extends Component {
   }
 
   getRandomGif = () => {
-    Axios.get('/random')
-    .then((response) => {
-      this.props.dispatch({type: 'SET_RANDOM', payload: response.data})
-      console.log(response);
-      
-    }).catch((error) => {
-      console.log('Error in GET:', error)
-    })
-  }
+    Axios.get("/random")
+      .then(response => {
+        this.props.dispatch({ type: "SET_RANDOM", payload: response.data });
+        console.log(response);
+      })
+      .catch(error => {
+        console.log("Error in GET:", error);
+      });
+  };
 
   render() {
+    if (this.props.randomImage.loading) {
+      return <div>loading....... </div>;
+    }
     return (
       <div>
         <header className="App-header">
-          <h1>Random Giphy API</h1>
+          <h1>Photos provided by Pexels</h1>
         </header>
-        
-        <p>Results go here</p>
-        <img src={this.props.random.path}></img>
-        <br/>
-        {this.props.random.description}
-        <br />
-        <button onClick={this.getRandomGif}>New Random Gif!</button>
+        {JSON.stringify(this.props.random)}
+        {this.props.randomImage.values.map((image, index) => (
+          <img key={index} src={image.src.small} alt={image.id}></img>
+        ))}
       </div>
     );
   }
 }
 
-const putStateOnProps = (reduxState) => ({
-  random: reduxState.random
-})
+const putStateOnProps = reduxState => ({
+  randomImage: reduxState.randomImage
+});
 
 export default connect(putStateOnProps)(App);

@@ -3,18 +3,21 @@ const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
 
-router.get('/', (req, res) => {
-    let endpoint = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.API_KEY}&tag=&rating=PG-13`;
-    axios.get(endpoint)
-        .then((response) => {
-            let gifToSend = {
-                description: response.data.data.title,
-                path: response.data.data.image_original_url
-            }
-            res.send(gifToSend);
-        }).catch((error) => {
-            console.log('Error in Axios GET:', error);
-        })
-})
+getRandomNumber = () => {
+    return (Math.floor(Math.random() * 1000) + 1);
+}
+
+router
+  .get("/", (req, res) => {
+    let endpoint = `https://api.pexels.com/v1/curated?per_page=10&page=${getRandomNumber}`;
+    axios
+      .get(endpoint, {headers: {Authorization: process.env.API_KEY}})
+      .then(response => {       
+        res.send(response.data.photos);
+      })
+      .catch(error => {
+        console.log("Error in Axios GET:", error);
+      });
+  })
 
 module.exports = router;
