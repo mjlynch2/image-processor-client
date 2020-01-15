@@ -4,12 +4,14 @@ const axios = require('axios');
 require('dotenv').config();
 
 getRandomNumber = () => {
-    return (Math.floor(Math.random() * 1000) + 1);
+    let random = (Math.floor(Math.random() * 1000) + 1);
+    console.log(random);
+    return random;
 }
 
 router
   .get("/", (req, res) => {
-    let endpoint = `https://api.pexels.com/v1/curated?per_page=10&page=${getRandomNumber}`;
+    let endpoint = `https://api.pexels.com/v1/curated?per_page=10&page=${getRandomNumber()}`;
     axios
       .get(endpoint, {headers: {Authorization: process.env.API_KEY}})
       .then(response => {       

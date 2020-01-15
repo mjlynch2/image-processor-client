@@ -8,7 +8,7 @@ class App extends Component {
     this.getRandomImages();
   }
 
-  getRandmImages = () => {
+  getRandomImages = () => {
     Axios.get("/random")
       .then(response => {
         this.props.dispatch({ type: "SET_RANDOM", payload: response.data });
@@ -30,7 +30,7 @@ class App extends Component {
         </header>
         {JSON.stringify(this.props.random)}
         {this.props.randomImage.values.map((image, index) => (
-          <img key={index} src={image.src.small} alt={image.id}></img>
+          <img key={index} src={image.src.tiny} alt={image.id}></img>
         ))}
       </div>
     );
