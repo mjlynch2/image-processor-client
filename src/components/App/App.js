@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import Axios from "axios";
 
 class App extends Component {
+  state = {
+    selectedImage: null
+  };
   // Renders the entire app on the DOM
   componentDidMount() {
     this.getRandomImages();
@@ -19,6 +22,11 @@ class App extends Component {
       });
   };
 
+  handleClick = (id, path) => {
+    this.setState({selectedImage: path});
+    console.log("id is", id);
+  };
+
   render() {
     if (this.props.randomImage.loading) {
       return <div>loading....... </div>;
@@ -26,11 +34,18 @@ class App extends Component {
     return (
       <div>
         <header className="App-header">
-          <h1>Photos provided by Pexels</h1>
+          <h1>Photos provided by <a href='http://pixabay.com'>Pixabay</a></h1>
         </header>
-        {JSON.stringify(this.props.random)}
+        <div>
+          <img src={this.state.selectedImage} alt="test"/>
+        </div>
         {this.props.randomImage.values.map((image, index) => (
-          <img key={index} src={image.src.tiny} alt={image.id}></img>
+          <img
+            onClick={() => this.handleClick(image.id, image.webformatURL)}
+            key={index}
+            src={image.webformatURL}
+            alt={image.id}
+          ></img>
         ))}
       </div>
     );
